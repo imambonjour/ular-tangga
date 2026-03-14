@@ -137,12 +137,43 @@ function getCoordinates(square) {
  */
 function updatePlayerUI(player) {
     const { bottom, left } = getCoordinates(player.position);
-
-    // Adjust slightly to avoid perfect overlap if multiple players on same square
-    const offset = (player.id - 1) * 2;
-
-    player.element.style.bottom = `${bottom + 1}%`;
-    player.element.style.left = `${left + offset}%`;
+    
+    // Count how many players are on this square
+    const playersOnSquare = players.filter(p => p.position === player.position);
+    const count = playersOnSquare.length;
+    const playerIndex = playersOnSquare.findIndex(p => p.id === player.id);
+    
+    let scale = 1.0;
+    let offsetX = 0;
+    let offsetY = 0;
+    
+    if (count > 1) {
+        // Shrink based on density
+        scale = count === 2 ? 0.75 : (count === 3 ? 0.6 : 0.5);
+        
+        // Arrange in a small grid or offset pattern within the cell
+        // A single cell is 10x10 units in our coordinate system
+        // Player token is roughly 9x9 units now (9%)
+        // We want to spread them out slightly
+        
+        const spacing = 2.5; // Offset in percentage points
+        if (count === 2) {
+            offsetX = playerIndex === 0 ? -spacing : spacing;
+        } else if (count === 3) {
+            // Triangle pattern
+            if (playerIndex === 0) { offsetX = 0; offsetY = spacing; }
+            else if (playerIndex === 1) { offsetX = -spacing; offsetY = -spacing; }
+            else { offsetX = spacing; offsetY = -spacing; }
+        } else if (count === 4) {
+            // Square pattern
+            offsetX = (playerIndex % 2 === 0) ? -spacing : spacing;
+            offsetY = (playerIndex < 2) ? spacing : -spacing;
+        }
+    }
+    
+    player.element.style.bottom = `${bottom + 0.5 + offsetY}%`;
+    player.element.style.left = `${left + 0.5 + offsetX}%`;
+    player.element.style.transform = `scale(${scale})`;
 }
 
 /**
@@ -232,7 +263,8 @@ async function movePlayerSequence(player, steps) {
         if (player.position >= TOTAL_SQUARES) break;
 
         player.position++;
-        updatePlayerUI(player);
+        updatePlayersOnSquare(player.position - 1); // Refresh old square
+        updatePlayersOnSquare(player.position);    // Refresh new square
         await sleep(300);
     }
 
@@ -252,13 +284,15 @@ async function checkTeleportation(player) {
         player.position = SNAKES[player.position];
         addLog(`OH NO! A snake at ${oldPos} took ${getPlayerName(player)} down to ${player.position}!`);
         await sleep(500);
-        updatePlayerUI(player);
+        updatePlayersOnSquare(oldPos);
+        updatePlayersOnSquare(player.position);
     } else if (LADDERS[player.position]) {
         const oldPos = player.position;
         player.position = LADDERS[player.position];
         addLog(`HURRAY! A ladder at ${oldPos} took ${getPlayerName(player)} up to ${player.position}!`);
         await sleep(500);
-        updatePlayerUI(player);
+        updatePlayersOnSquare(oldPos);
+        updatePlayersOnSquare(player.position);
     }
 
     checkWinCondition(player);
@@ -351,7 +385,8 @@ async function handleDecision(isCorrect) {
 
         for (let i = 0; i < stepsToBack; i++) {
             player.position--;
-            updatePlayerUI(player);
+            updatePlayersOnSquare(player.position + 1); // Refresh old
+            updatePlayersOnSquare(player.position);     // Refresh new
             await sleep(300);
         }
 
@@ -399,6 +434,14 @@ function victory(player) {
     gameActive = false;
     rollBtn.innerText = 'GAME OVER';
     rollBtn.disabled = true;
+}
+
+function updatePlayersOnSquare(square) {
+    players.forEach(p => {
+        if (p.position === square) {
+            updatePlayerUI(p);
+        }
+    });
 }
 
 function sleep(ms) {

@@ -122,12 +122,12 @@ body {
 
 .player-token {
     position: absolute;
-    width: 6%;
-    /* Approx 1/10th of a cell, leave room for multiple */
-    height: 6%;
+    width: 9%;
+    height: 9%;
     transition: all 0.5s ease;
     z-index: 5;
     image-rendering: pixelated;
+    transform-origin: center;
 }
 
 .bundle-marker {
