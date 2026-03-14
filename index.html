@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixel Snake and Ladders</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Start Screen -->
+        <div id="start-screen">
+            <h1 class="title">SNAKES & LADDERS</h1>
+            <div class="player-selection">
+                <p>Select Number of Players:</p>
+                <div style="display: flex; gap: 10px; justify-content: center;">
+                    <button class="btn" onclick="startGame(1)">1 Player</button>
+                    <button class="btn" onclick="startGame(2)">2 Players</button>
+                    <button class="btn" onclick="startGame(3)">3 Players</button>
+                    <button class="btn" onclick="startGame(4)">4 Players</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game-screen">
+            <div class="game-container">
+                <img src="assets/textures/games/board.png" alt="Board" id="board-img">
+                <div id="players-layer" class="players-layer"></div>
+            </div>
+
+            <div class="ui-panel">
+                <div id="turn-indicator" class="turn-indicator">
+                    WAITING...
+                </div>
+                
+                <div class="dice-container">
+                    <div id="dice-face" class="dice-1"></div>
+                    <button id="roll-btn" class="btn" onclick="handleRoll()">ROLL DICE</button>
+                </div>
+
+                <div id="game-log" class="game-log">
+                    <div class="log-entry">Welcome to Snakes & Ladders!</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

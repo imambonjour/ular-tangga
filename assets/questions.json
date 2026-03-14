@@ -1,0 +1,124 @@
+{
+    "questions": [
+        {
+            "id": 1,
+            "kategori": "Pengetahuan Umum",
+            "pertanyaan": "Apa nama ibu kota negara Indonesia yang baru di Kalimantan?",
+            "kunci_jawaban": "Nusantara (IKN)"
+        },
+        {
+            "id": 2,
+            "kategori": "Numerik",
+            "pertanyaan": "Berapakah hasil dari 150 dibagi 3?",
+            "kunci_jawaban": "50"
+        },
+        {
+            "id": 3,
+            "kategori": "Pengetahuan Umum",
+            "pertanyaan": "Siapa presiden pertama Republik Indonesia?",
+            "kunci_jawaban": "Ir. Soekarno"
+        },
+        {
+            "id": 4,
+            "kategori": "Numerik",
+            "pertanyaan": "Berapakah nilai dari 7 x 8?",
+            "kunci_jawaban": "56"
+        },
+        {
+            "id": 5,
+            "kategori": "Pengetahuan Umum",
+            "pertanyaan": "Apa nama samudra terluas di dunia?",
+            "kunci_jawaban": "Samudra Pasifik"
+        },
+        {
+            "id": 6,
+            "kategori": "Numerik",
+            "pertanyaan": "Selesaikan deret ini: 5, 10, 20, ... (Angka berikutnya?)",
+            "kunci_jawaban": "40"
+        },
+        {
+            "id": 7,
+            "kategori": "Pengetahuan Umum",
+            "pertanyaan": "Hewan apa yang dikenal sebagai 'Raja Hutan'?",
+            "kunci_jawaban": "Singa"
+        },
+        {
+            "id": 8,
+            "kategori": "Numerik",
+            "pertanyaan": "Berapa jumlah sudut dalam satu buah persegi?",
+            "kunci_jawaban": "4"
+        },
+        {
+            "id": 9,
+            "kategori": "Pengetahuan Umum",
+            "pertanyaan": "Benua manakah yang dijuluki sebagai Benua Merah?",
+            "kunci_jawaban": "Amerika"
+        },
+        {
+            "id": 10,
+            "kategori": "Numerik",
+            "pertanyaan": "Berapakah akar kuadrat dari 81?",
+            "kunci_jawaban": "9"
+        },
+        {
+            "id": 11,
+            "kategori": "Pengetahuan Umum",
+            "pertanyaan": "Warna apa yang dihasilkan dari campuran biru dan kuning?",
+            "kunci_jawaban": "Hijau"
+        },
+        {
+            "id": 12,
+            "kategori": "Numerik",
+            "pertanyaan": "Jika harga 3 buku adalah 15.000, berapa harga 1 buku?",
+            "kunci_jawaban": "5.000"
+        },
+        {
+            "id": 13,
+            "kategori": "Pengetahuan Umum",
+            "pertanyaan": "Kumpulan bintang di langit yang membentuk pola disebut?",
+            "kunci_jawaban": "Rasi Bintang (Konstelasi)"
+        },
+        {
+            "id": 14,
+            "kategori": "Numerik",
+            "pertanyaan": "Berapakah hasil dari 2 pangkat 5?",
+            "kunci_jawaban": "32"
+        },
+        {
+            "id": 15,
+            "kategori": "Pengetahuan Umum",
+            "pertanyaan": "Zat hijau pada daun tumbuhan disebut?",
+            "kunci_jawaban": "Klorofil"
+        },
+        {
+            "id": 16,
+            "kategori": "Numerik",
+            "pertanyaan": "Sebuah jam menunjukkan pukul 15.00. Itu sama dengan jam berapa sore?",
+            "kunci_jawaban": "Jam 3 sore"
+        },
+        {
+            "id": 17,
+            "kategori": "Pengetahuan Umum",
+            "pertanyaan": "Siapa penemu benua Amerika?",
+            "kunci_jawaban": "Christopher Columbus"
+        },
+        {
+            "id": 18,
+            "kategori": "Numerik",
+            "pertanyaan": "Berapa menit dalam 2,5 jam?",
+            "kunci_jawaban": "150 menit"
+        },
+        {
+            "id": 19,
+            "kategori": "Pengetahuan Umum",
+            "pertanyaan": "Negara terkecil di dunia adalah?",
+            "kunci_jawaban": "Vatikan"
+        },
+        {
+            "id": 20,
+            "kategori": "Numerik",
+            "pertanyaan": "Jika x + 12 = 30, berapa x?",
+            "kunci_jawaban": "18"
+        }
+    ]
+}
