@@ -122,7 +122,8 @@ body {
 
 .player-token {
     position: absolute;
-    width: 6%; /* Approx 1/10th of a cell, leave room for multiple */
+    width: 6%;
+    /* Approx 1/10th of a cell, leave room for multiple */
     height: 6%;
     transition: all 0.5s ease;
     z-index: 5;
@@ -131,7 +132,8 @@ body {
 
 .bundle-marker {
     position: absolute;
-    width: 8%; /* Increased from 6% to account for margins */
+    width: 8%;
+    /* Increased from 6% to account for margins */
     height: 8%;
     z-index: 4;
     image-rendering: pixelated;
@@ -177,10 +179,23 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     image-rendering: pixelated;
-    border: 4px solid #000;
-    box-shadow: 4px 4px rgba(0,0,0,0.5);
-    background-color: #fff;
     display: block;
+}
+
+.dice-rolling {
+    background-image: url('assets/textures/dice/animation.png') !important;
+    background-size: 600% 100% !important;
+    animation: dice-roll 0.2s steps(5) infinite;
+}
+
+@keyframes dice-roll {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 100% 0;
+    }
 }
 
 .game-log {
@@ -221,10 +236,10 @@ body {
     width: 600px;
     background-color: #2d3748;
     border: 4px solid #000;
-    box-shadow: 
+    box-shadow:
         inset -4px -4px 0 0 #1a202c,
         inset 4px 4px 0 0 #4a5568,
-        8px 8px 0 0 rgba(0,0,0,0.5);
+        8px 8px 0 0 rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -315,7 +330,5 @@ body {
 
 .decision-btn:active {
     transform: scale(0.95);
-    box-shadow: inset 4px 4px 0 0 rgba(0,0,0,0.5);
+    box-shadow: inset 4px 4px 0 0 rgba(0, 0, 0, 0.5);
 }
-
-
