@@ -44,6 +44,23 @@
                 </div>
             </div>
         </div>
+
+        <!-- Quiz Modal -->
+        <div id="quiz-modal" class="modal-overlay">
+            <div class="quiz-container">
+                <div class="quiz-header">TEACHER QUIZ</div>
+                <div id="quiz-timer-container">
+                    <div id="quiz-timer-bar"></div>
+                </div>
+                <div class="quiz-body">
+                    <h2 id="quiz-question" class="question-text">Loading question...</h2>
+                </div>
+                <div class="quiz-footer">
+                    <button class="decision-btn accept" onclick="handleDecision(true)">ACCEPT</button>
+                    <button class="decision-btn reject" onclick="handleDecision(false)">REJECT</button>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>

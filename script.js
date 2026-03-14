@@ -10,6 +10,31 @@ const LADDERS = {
     12: 50, 19: 38, 59: 79, 73: 92, 77: 85
 };
 
+const BUNDLE_COUNT = 8;
+let bundleSquares = [];
+const QUESTIONS = [
+    { id: 1, kategori: "Pengetahuan Umum", pertanyaan: "Apa nama ibu kota negara Indonesia yang baru di Kalimantan?", kunci_jawaban: "Nusantara (IKN)" },
+    { id: 2, kategori: "Numerik", pertanyaan: "Berapakah hasil dari 150 dibagi 3?", kunci_jawaban: "50" },
+    { id: 3, kategori: "Pengetahuan Umum", pertanyaan: "Siapa presiden pertama Republik Indonesia?", kunci_jawaban: "Ir. Soekarno" },
+    { id: 4, kategori: "Numerik", pertanyaan: "Berapakah nilai dari 7 x 8?", kunci_jawaban: "56" },
+    { id: 5, kategori: "Pengetahuan Umum", pertanyaan: "Apa nama samudra terluas di dunia?", kunci_jawaban: "Samudra Pasifik" },
+    { id: 6, kategori: "Numerik", pertanyaan: "Selesaikan deret ini: 5, 10, 20, ... (Angka berikutnya?)", kunci_jawaban: "40" },
+    { id: 7, kategori: "Pengetahuan Umum", pertanyaan: "Hewan apa yang dikenal sebagai 'Raja Hutan'?", kunci_jawaban: "Singa" },
+    { id: 8, kategori: "Numerik", pertanyaan: "Berapa jumlah sudut dalam satu buah persegi?", kunci_jawaban: "4" },
+    { id: 9, kategori: "Pengetahuan Umum", pertanyaan: "Benua manakah yang dijuluki sebagai Benua Merah?", kunci_jawaban: "Amerika" },
+    { id: 10, kategori: "Numerik", pertanyaan: "Berapakah akar kuadrat dari 81?", kunci_jawaban: "9" },
+    { id: 11, kategori: "Pengetahuan Umum", pertanyaan: "Warna apa yang dihasilkan dari campuran biru dan kuning?", kunci_jawaban: "Hijau" },
+    { id: 12, kategori: "Numerik", pertanyaan: "Jika harga 3 buku adalah 15.000, berapa harga 1 buku?", kunci_jawaban: "5.000" },
+    { id: 13, kategori: "Pengetahuan Umum", pertanyaan: "Kumpulan bintang di langit yang membentuk pola disebut?", kunci_jawaban: "Rasi Bintang (Konstelasi)" },
+    { id: 14, kategori: "Numerik", pertanyaan: "Berapakah hasil dari 2 pangkat 5?", kunci_jawaban: "32" },
+    { id: 15, kategori: "Pengetahuan Umum", pertanyaan: "Zat hijau pada daun tumbuhan disebut?", kunci_jawaban: "Klorofil" },
+    { id: 16, kategori: "Numerik", pertanyaan: "Sebuah jam menunjukkan pukul 15.00. Itu sama dengan jam berapa sore?", kunci_jawaban: "Jam 3 sore" },
+    { id: 17, kategori: "Pengetahuan Umum", pertanyaan: "Siapa penemu benua Amerika?", kunci_jawaban: "Christopher Columbus" },
+    { id: 18, kategori: "Numerik", pertanyaan: "Berapa menit dalam 2,5 jam?", kunci_jawaban: "150 menit" },
+    { id: 19, kategori: "Pengetahuan Umum", pertanyaan: "Negara terkecil di dunia adalah?", kunci_jawaban: "Vatikan" },
+    { id: 20, kategori: "Numerik", pertanyaan: "Jika x + 12 = 30, berapa x?", kunci_jawaban: "18" }
+];
+
 // Game State
 let players = [];
 let currentPlayerIndex = 0;
@@ -25,6 +50,14 @@ const diceFace = document.getElementById('dice-face');
 const gameLog = document.getElementById('game-log');
 const rollBtn = document.getElementById('roll-btn');
 
+// Quiz Elements
+const quizModal = document.getElementById('quiz-modal');
+const quizQuestion = document.getElementById('quiz-question');
+const quizTimerBar = document.getElementById('quiz-timer-bar');
+
+let quizTimerInterval = null;
+const QUIZ_TIME_LIMIT = 10000; // 10 seconds in ms
+
 /**
  * Initialize the game with the selected number of players
  */
@@ -32,6 +65,9 @@ function startGame(numPlayers) {
     players = [];
     playersLayer.innerHTML = '';
     
+    // Place bundles
+    placeBundles();
+
     for (let i = 0; i < numPlayers; i++) {
         const player = {
             id: i + 1,
@@ -110,6 +146,46 @@ function updatePlayerUI(player) {
 }
 
 /**
+ * Bundle Logic
+ */
+function isForbiddenSquare(square) {
+    // Snake head, Ladder base, Start (1), Finish (100)
+    return SNAKES[square] || LADDERS[square] || square === 1 || square === TOTAL_SQUARES;
+}
+
+function placeBundles() {
+    bundleSquares = [];
+    const availableSquares = [];
+    for (let i = 2; i < TOTAL_SQUARES; i++) {
+        if (!isForbiddenSquare(i)) {
+            availableSquares.push(i);
+        }
+    }
+    
+    // Pick random squares for bundles
+    for (let i = 0; i < BUNDLE_COUNT; i++) {
+        if (availableSquares.length === 0) break;
+        const randomIndex = Math.floor(Math.random() * availableSquares.length);
+        const square = availableSquares.splice(randomIndex, 1)[0];
+        bundleSquares.push(square);
+        
+        // Render bundle marker
+        createBundleElement(square);
+    }
+}
+
+function createBundleElement(square) {
+    const { bottom, left } = getCoordinates(square);
+    const el = document.createElement('img');
+    el.src = 'assets/textures/games/luckyblock.png';
+    el.className = 'bundle-marker';
+    el.style.bottom = `${bottom + 2}%`;
+    el.style.left = `${left + 2}%`;
+    el.dataset.square = square;
+    playersLayer.appendChild(el);
+}
+
+/**
  * Handle dice roll
  */
 async function handleRoll() {
@@ -127,17 +203,6 @@ async function handleRoll() {
     addLog(`${getPlayerName(player)} rolled a ${roll}!`);
     
     await movePlayerSequence(player, roll);
-    
-    if (player.position === TOTAL_SQUARES) {
-        victory(player);
-        return;
-    }
-    
-    // End turn
-    currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
-    updateTurnIndicator();
-    isMoving = false;
-    rollBtn.disabled = false;
 }
 
 /**
@@ -169,6 +234,16 @@ async function movePlayerSequence(player, steps) {
         await sleep(300);
     }
     
+    // Check for Bundle (Quiz)
+    if (bundleSquares.includes(player.position)) {
+        await showQuiz();
+        return; // handleDecision will resume the game
+    }
+
+    await checkTeleportation(player);
+}
+
+async function checkTeleportation(player) {
     // Check for Snake or Ladder
     if (SNAKES[player.position]) {
         const oldPos = player.position;
@@ -183,7 +258,115 @@ async function movePlayerSequence(player, steps) {
         await sleep(500);
         updatePlayerUI(player);
     }
+    
+    checkWinCondition(player);
+    endTurn();
 }
+
+function checkWinCondition(player) {
+    if (player.position === TOTAL_SQUARES) {
+        victory(player);
+        return true;
+    }
+    return false;
+}
+
+function endTurn() {
+    if (!gameActive) return;
+    currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+    updateTurnIndicator();
+    isMoving = false;
+    rollBtn.disabled = false;
+}
+
+/**
+ * Quiz & Teacher controls
+ */
+async function showQuiz() {
+    if (QUESTIONS.length === 0) {
+        addLog("Error: No questions available!");
+        endTurn();
+        return;
+    }
+
+    const randomIndex = Math.floor(Math.random() * QUESTIONS.length);
+    const q = QUESTIONS[randomIndex];
+    
+    quizQuestion.innerText = q.pertanyaan;
+    
+    // Show modal
+    quizModal.style.display = 'flex';
+    addLog("Quiz Time! Teacher is deciding...");
+    
+    // Start Timer
+    startQuizTimer();
+}
+
+/**
+ * Timer logic for the quiz
+ */
+function startQuizTimer() {
+    let timeLeft = QUIZ_TIME_LIMIT;
+    quizTimerBar.style.width = '100%';
+    
+    if (quizTimerInterval) clearInterval(quizTimerInterval);
+    
+    const startTime = Date.now();
+    
+    quizTimerInterval = setInterval(() => {
+        const elapsed = Date.now() - startTime;
+        timeLeft = Math.max(0, QUIZ_TIME_LIMIT - elapsed);
+        
+        const percentage = (timeLeft / QUIZ_TIME_LIMIT) * 100;
+        quizTimerBar.style.width = `${percentage}%`;
+        
+        if (timeLeft <= 0) {
+            clearInterval(quizTimerInterval);
+            addLog("Time's up!");
+            handleDecision(false);
+        }
+    }, 50);
+}
+
+async function handleDecision(isCorrect) {
+    if (quizTimerInterval) clearInterval(quizTimerInterval);
+    
+    quizModal.style.display = 'none';
+    const player = players[currentPlayerIndex];
+
+    if (isCorrect) {
+        addLog(`Teacher ACCEPTED! ${getPlayerName(player)} stays.`);
+        // Remove the bundle so it doesn't trigger again
+        removeBundle(player.position);
+        
+        await checkTeleportation(player);
+    } else {
+        addLog(`Teacher REJECTED! ${getPlayerName(player)} moves back 3 squares.`);
+        
+        // Move back 3 squares (or minimum to Square 1)
+        const targetPos = Math.max(1, player.position - 3);
+        const stepsToBack = player.position - targetPos;
+        
+        for (let i = 0; i < stepsToBack; i++) {
+            player.position--;
+            updatePlayerUI(player);
+            await sleep(300);
+        }
+        
+        await checkTeleportation(player);
+    }
+}
+
+function removeBundle(square) {
+    bundleSquares = bundleSquares.filter(s => s !== square);
+    const bundles = document.querySelectorAll('.bundle-marker');
+    bundles.forEach(b => {
+        if (parseInt(b.dataset.square) === square) {
+            b.remove();
+        }
+    });
+}
+
 
 function updateTurnIndicator() {
     const player = players[currentPlayerIndex];
