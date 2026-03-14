@@ -1,0 +1,11 @@
+.git
+.gemini
+brain
+.system_generated
+.agents
+*.md
+Dockerfile
+.dockerignore
+node_modules
+package-lock.json
+package.json

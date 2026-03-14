@@ -118,7 +118,16 @@
             "id": 20,
             "kategori": "Numerik",
             "pertanyaan": "Jika x + 12 = 30, berapa x?",
-            "kunci_jawaban": "18"
+            "kunci_jawaban": "18",
+            "duration": 5
+        },
+        {
+            "id": 21,
+            "kategori": "Biologi",
+            "pertanyaan": "Hewan apakah ini?",
+            "kunci_jawaban": "Singa (Lion)",
+            "img": "assets/textures/quiz/lion.jpg",
+            "duration": 15
         }
     ]
 }

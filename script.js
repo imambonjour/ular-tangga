@@ -12,28 +12,7 @@ const LADDERS = {
 
 const BUNDLE_COUNT = 8;
 let bundleSquares = [];
-const QUESTIONS = [
-    { id: 1, kategori: "Pengetahuan Umum", pertanyaan: "Apa nama ibu kota negara Indonesia yang baru di Kalimantan?", kunci_jawaban: "Nusantara (IKN)" },
-    { id: 2, kategori: "Numerik", pertanyaan: "Berapakah hasil dari 150 dibagi 3?", kunci_jawaban: "50" },
-    { id: 3, kategori: "Pengetahuan Umum", pertanyaan: "Siapa presiden pertama Republik Indonesia?", kunci_jawaban: "Ir. Soekarno" },
-    { id: 4, kategori: "Numerik", pertanyaan: "Berapakah nilai dari 7 x 8?", kunci_jawaban: "56" },
-    { id: 5, kategori: "Pengetahuan Umum", pertanyaan: "Apa nama samudra terluas di dunia?", kunci_jawaban: "Samudra Pasifik" },
-    { id: 6, kategori: "Numerik", pertanyaan: "Selesaikan deret ini: 5, 10, 20, ... (Angka berikutnya?)", kunci_jawaban: "40" },
-    { id: 7, kategori: "Pengetahuan Umum", pertanyaan: "Hewan apa yang dikenal sebagai 'Raja Hutan'?", kunci_jawaban: "Singa" },
-    { id: 8, kategori: "Numerik", pertanyaan: "Berapa jumlah sudut dalam satu buah persegi?", kunci_jawaban: "4" },
-    { id: 9, kategori: "Pengetahuan Umum", pertanyaan: "Benua manakah yang dijuluki sebagai Benua Merah?", kunci_jawaban: "Amerika" },
-    { id: 10, kategori: "Numerik", pertanyaan: "Berapakah akar kuadrat dari 81?", kunci_jawaban: "9" },
-    { id: 11, kategori: "Pengetahuan Umum", pertanyaan: "Warna apa yang dihasilkan dari campuran biru dan kuning?", kunci_jawaban: "Hijau" },
-    { id: 12, kategori: "Numerik", pertanyaan: "Jika harga 3 buku adalah 15.000, berapa harga 1 buku?", kunci_jawaban: "5.000" },
-    { id: 13, kategori: "Pengetahuan Umum", pertanyaan: "Kumpulan bintang di langit yang membentuk pola disebut?", kunci_jawaban: "Rasi Bintang (Konstelasi)" },
-    { id: 14, kategori: "Numerik", pertanyaan: "Berapakah hasil dari 2 pangkat 5?", kunci_jawaban: "32" },
-    { id: 15, kategori: "Pengetahuan Umum", pertanyaan: "Zat hijau pada daun tumbuhan disebut?", kunci_jawaban: "Klorofil" },
-    { id: 16, kategori: "Numerik", pertanyaan: "Sebuah jam menunjukkan pukul 15.00. Itu sama dengan jam berapa sore?", kunci_jawaban: "Jam 3 sore" },
-    { id: 17, kategori: "Pengetahuan Umum", pertanyaan: "Siapa penemu benua Amerika?", kunci_jawaban: "Christopher Columbus" },
-    { id: 18, kategori: "Numerik", pertanyaan: "Berapa menit dalam 2,5 jam?", kunci_jawaban: "150 menit" },
-    { id: 19, kategori: "Pengetahuan Umum", pertanyaan: "Negara terkecil di dunia adalah?", kunci_jawaban: "Vatikan" },
-    { id: 20, kategori: "Numerik", pertanyaan: "Jika x + 12 = 30, berapa x?", kunci_jawaban: "18" }
-];
+let QUESTIONS = []; 
 
 // Game State
 let players = [];
@@ -54,16 +33,45 @@ const rollBtn = document.getElementById('roll-btn');
 const quizModal = document.getElementById('quiz-modal');
 const quizQuestion = document.getElementById('quiz-question');
 const quizTimerBar = document.getElementById('quiz-timer-bar');
+const quizImage = document.getElementById('quiz-image');
 
 let quizTimerInterval = null;
-const QUIZ_TIME_LIMIT = 10000; // 10 seconds in ms
+
+/**
+ * Load questions from external JSON
+ */
+async function loadQuestions() {
+    try {
+        const response = await fetch('assets/questions.json');
+        if (!response.ok) throw new Error('Network response was not ok');
+        const data = await response.json();
+        QUESTIONS = data.questions;
+        console.log("Questions loaded successfully from JSON.");
+    } catch (error) {
+        console.warn("Using fallback questions from questions-data.js:", error);
+        if (typeof FALLBACK_QUESTIONS !== 'undefined') {
+            QUESTIONS = FALLBACK_QUESTIONS;
+        } else {
+            console.error("No question data found!");
+        }
+    }
+}
+
+// Initial load - single call
+loadQuestions();
 
 /**
  * Initialize the game with the selected number of players
  */
 function startGame(numPlayers) {
+    if (isMoving) return; 
+    
+    // Reset state
     players = [];
     playersLayer.innerHTML = '';
+    currentPlayerIndex = 0;
+    gameActive = true;
+    isMoving = false;
 
     // Place bundles
     placeBundles();
@@ -80,8 +88,6 @@ function startGame(numPlayers) {
         updatePlayerUI(player);
     }
 
-    currentPlayerIndex = 0;
-    gameActive = true;
     startScreen.style.display = 'none';
     gameScreen.style.display = 'flex';
 
@@ -259,12 +265,23 @@ function updateDiceFace(value) {
  * Move player square by square
  */
 async function movePlayerSequence(player, steps) {
+    let goingForward = true;
     for (let i = 0; i < steps; i++) {
-        if (player.position >= TOTAL_SQUARES) break;
+        const oldPos = player.position;
+        
+        // If we reach 100 and still have steps, bounce back
+        if (player.position === TOTAL_SQUARES) {
+            goingForward = false;
+        }
 
-        player.position++;
-        updatePlayersOnSquare(player.position - 1); // Refresh old square
-        updatePlayersOnSquare(player.position);    // Refresh new square
+        if (goingForward) {
+            player.position++;
+        } else {
+            player.position--;
+        }
+
+        updatePlayersOnSquare(oldPos);
+        updatePlayersOnSquare(player.position);
         await sleep(300);
     }
 
@@ -330,19 +347,28 @@ async function showQuiz() {
 
     quizQuestion.innerText = q.pertanyaan;
 
+    // Handle Image
+    if (q.img) {
+        quizImage.src = q.img;
+        quizImage.style.display = 'block';
+    } else {
+        quizImage.style.display = 'none';
+    }
+
     // Show modal
     quizModal.style.display = 'flex';
     addLog("Quiz Time! Teacher is deciding...");
 
     // Start Timer
-    startQuizTimer();
+    const duration = (q.duration || 10) * 1000;
+    startQuizTimer(duration);
 }
 
 /**
  * Timer logic for the quiz
  */
-function startQuizTimer() {
-    let timeLeft = QUIZ_TIME_LIMIT;
+function startQuizTimer(timeLimitMs) {
+    let timeLeft = timeLimitMs;
     quizTimerBar.style.width = '100%';
 
     if (quizTimerInterval) clearInterval(quizTimerInterval);
@@ -351,9 +377,9 @@ function startQuizTimer() {
 
     quizTimerInterval = setInterval(() => {
         const elapsed = Date.now() - startTime;
-        timeLeft = Math.max(0, QUIZ_TIME_LIMIT - elapsed);
+        timeLeft = Math.max(0, timeLimitMs - elapsed);
 
-        const percentage = (timeLeft / QUIZ_TIME_LIMIT) * 100;
+        const percentage = (timeLeft / timeLimitMs) * 100;
         quizTimerBar.style.width = `${percentage}%`;
 
         if (timeLeft <= 0) {
@@ -372,9 +398,6 @@ async function handleDecision(isCorrect) {
 
     if (isCorrect) {
         addLog(`Teacher ACCEPTED! ${getPlayerName(player)} stays.`);
-        // Remove the bundle so it doesn't trigger again
-        removeBundle(player.position);
-
         await checkTeleportation(player);
     } else {
         addLog(`Teacher REJECTED! ${getPlayerName(player)} moves back 3 squares.`);
