@@ -5,3 +5,6 @@ services:
     ports:
       - "7771:80"
     restart: unless-stopped
+    volumes:
+      # Titik (.) artinya folder tempat docker-compose ini berada
+      - .:/usr/share/nginx/html
