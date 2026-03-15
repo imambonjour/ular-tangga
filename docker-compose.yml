@@ -1,0 +1,7 @@
+services:
+  ular-tangga:
+    build: .
+    container_name: ular-tangga-game
+    ports:
+      - "7771:80"
+    restart: unless-stopped
