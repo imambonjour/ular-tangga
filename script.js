@@ -223,7 +223,12 @@ function placeBundles() {
 function createBundleElement(square) {
     const { bottom, left } = getCoordinates(square);
     const el = document.createElement('img');
-    el.src = 'assets/textures/quiz/gift.png';
+    
+    // Randomly select a gift texture
+    const giftTextures = ['gift_green.png', 'gift_red.png', 'gift_yellow.png'];
+    const randomTexture = giftTextures[Math.floor(Math.random() * giftTextures.length)];
+    
+    el.src = `assets/textures/quiz/giftbox/${randomTexture}`;
     el.className = 'bundle-marker';
     el.style.bottom = `${bottom + 2}%`;
     el.style.left = `${left + 2}%`;
