@@ -10,7 +10,7 @@ const LADDERS = {
     12: 50, 19: 38, 59: 79, 73: 92, 77: 85
 };
 
-const BUNDLE_COUNT = 8;
+const BUNDLE_COUNT = 15;
 let bundleSquares = [];
 let QUESTIONS = []; 
 
@@ -187,7 +187,16 @@ function updatePlayerUI(player) {
  */
 function isForbiddenSquare(square) {
     // Snake head, Ladder base, Start (1), Finish (100)
-    return SNAKES[square] || LADDERS[square] || square === 1 || square === TOTAL_SQUARES;
+    // Also exclude Snake tails and Ladder tops
+    const snakeTails = Object.values(SNAKES);
+    const ladderTops = Object.values(LADDERS);
+    
+    return SNAKES[square] || 
+           LADDERS[square] || 
+           snakeTails.includes(square) || 
+           ladderTops.includes(square) || 
+           square === 1 || 
+           square === TOTAL_SQUARES;
 }
 
 function placeBundles() {
@@ -214,7 +223,7 @@ function placeBundles() {
 function createBundleElement(square) {
     const { bottom, left } = getCoordinates(square);
     const el = document.createElement('img');
-    el.src = 'assets/textures/games/luckyblock.png';
+    el.src = 'assets/textures/quiz/gift.png';
     el.className = 'bundle-marker';
     el.style.bottom = `${bottom + 2}%`;
     el.style.left = `${left + 2}%`;
@@ -345,7 +354,7 @@ async function showQuiz() {
     const randomIndex = Math.floor(Math.random() * QUESTIONS.length);
     const q = QUESTIONS[randomIndex];
 
-    quizQuestion.innerText = q.pertanyaan;
+    quizQuestion.innerHTML = q.pertanyaan;
 
     // Handle Image
     if (q.img) {
@@ -358,6 +367,17 @@ async function showQuiz() {
     // Show modal
     quizModal.style.display = 'flex';
     addLog("Quiz Time! Teacher is deciding...");
+
+    // Render LaTeX Math if KaTeX is loaded
+    if (typeof renderMathInElement === 'function') {
+        renderMathInElement(quizModal, {
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false}
+            ],
+            throwOnError : false
+        });
+    }
 
     // Start Timer
     const duration = (q.duration || 10) * 1000;

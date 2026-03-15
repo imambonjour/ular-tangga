@@ -2,132 +2,143 @@
     "questions": [
         {
             "id": 1,
-            "kategori": "Pengetahuan Umum",
-            "pertanyaan": "Apa nama ibu kota negara Indonesia yang baru di Kalimantan?",
-            "kunci_jawaban": "Nusantara (IKN)"
+            "kategori": "Matematika (OSN)",
+            "pertanyaan": "Berapakah banyak bilangan bulat positif $n$ sehingga $n^2 - n + 1$ merupakan bilangan kubik sempurna?",
+            "kunci_jawaban": "1",
+            "duration": 60
         },
         {
             "id": 2,
-            "kategori": "Numerik",
-            "pertanyaan": "Berapakah hasil dari 150 dibagi 3?",
-            "kunci_jawaban": "50"
+            "kategori": "Fisika",
+            "pertanyaan": "Sebuah silinder pejal bermassa $M$ dan jari-jari $R$ menggelinding tanpa slip pada bidang miring dengan sudut elevasi $\\theta$. Berapakah percepatan linear pusat massa silinder tersebut?",
+            "kunci_jawaban": "2/3 g sin θ",
+            "duration": 45
         },
         {
             "id": 3,
-            "kategori": "Pengetahuan Umum",
-            "pertanyaan": "Siapa presiden pertama Republik Indonesia?",
-            "kunci_jawaban": "Ir. Soekarno"
+            "kategori": "Kimia",
+            "pertanyaan": "Pada suhu tertentu, tetapan kesetimbangan $K_p$ untuk reaksi $PCl_5(g) \\rightleftharpoons PCl_3(g) + Cl_2(g)$ adalah 4. Jika tekanan total sistem adalah 2 atm, berapakah derajat disosiasi ($\\alpha$) dari $PCl_5$?",
+            "kunci_jawaban": "sqrt(2/3) atau sekitar 0.816",
+            "duration": 60
         },
         {
             "id": 4,
-            "kategori": "Numerik",
-            "pertanyaan": "Berapakah nilai dari 7 x 8?",
-            "kunci_jawaban": "56"
+            "kategori": "Biologi (OSN)",
+            "pertanyaan": "Dalam siklus Krebs, berapakah jumlah molekul ATP (melalui fosforilasi tingkat substrat), NADH, dan $FADH_2$ yang dihasilkan dari oksidasi sempurna satu molekul glukosa?",
+            "kunci_jawaban": "2 ATP, 6 NADH, dan 2 FADH2",
+            "duration": 30
         },
         {
             "id": 5,
-            "kategori": "Pengetahuan Umum",
-            "pertanyaan": "Apa nama samudra terluas di dunia?",
-            "kunci_jawaban": "Samudra Pasifik"
+            "kategori": "IPS / Ekonomi",
+            "pertanyaan": "Dalam struktur pasar persaingan sempurna, sebuah perusahaan akan mencapai titik impas (break-even point) dalam jangka panjang ketika harga pasar sama dengan?",
+            "kunci_jawaban": "Biaya Rata-rata Minimum (Minimum Average Cost)",
+            "duration": 25
         },
         {
             "id": 6,
-            "kategori": "Numerik",
-            "pertanyaan": "Selesaikan deret ini: 5, 10, 20, ... (Angka berikutnya?)",
-            "kunci_jawaban": "40"
+            "kategori": "Pengetahuan Umum",
+            "pertanyaan": "Siapakah tokoh yang mengemukakan konsep 'The End of History' yang menyatakan bahwa demokrasi liberal adalah titik akhir evolusi ideologis manusia?",
+            "kunci_jawaban": "Francis Fukuyama",
+            "duration": 15
         },
         {
             "id": 7,
-            "kategori": "Pengetahuan Umum",
-            "pertanyaan": "Hewan apa yang dikenal sebagai 'Raja Hutan'?",
-            "kunci_jawaban": "Singa"
+            "kategori": "Informatika / Logika",
+            "pertanyaan": "Dalam algoritma pemrograman, berapakah kompleksitas waktu rata-rata (average case complexity) dari algoritma Quick Sort?",
+            "kunci_jawaban": "O(n log n)",
+            "duration": 20
         },
         {
             "id": 8,
-            "kategori": "Numerik",
-            "pertanyaan": "Berapa jumlah sudut dalam satu buah persegi?",
-            "kunci_jawaban": "4"
+            "kategori": "Fisika Modern",
+            "pertanyaan": "Berapakah panjang gelombang de Broglie dari sebuah elektron (massa $m$) yang dipercepat dari keadaan diam melalui beda potensial $V$?",
+            "kunci_jawaban": "h / sqrt(2meV)",
+            "duration": 40
         },
         {
             "id": 9,
-            "kategori": "Pengetahuan Umum",
-            "pertanyaan": "Benua manakah yang dijuluki sebagai Benua Merah?",
-            "kunci_jawaban": "Amerika"
+            "kategori": "Kimia Organik",
+            "pertanyaan": "Apa nama produk utama yang dihasilkan dari reaksi antara benzena dengan klorometana menggunakan katalis $AlCl_3$ (Reaksi Friedel-Crafts)?",
+            "kunci_jawaban": "Toluena (Metilbenzena)",
+            "duration": 30
         },
         {
             "id": 10,
-            "kategori": "Numerik",
-            "pertanyaan": "Berapakah akar kuadrat dari 81?",
-            "kunci_jawaban": "9"
+            "kategori": "Astronomi / Geografi",
+            "pertanyaan": "Berapakah jarak rata-rata antara Bumi dan Matahari yang sering disebut sebagai satu Satuan Astronomi (AU) dalam satuan kilometer?",
+            "kunci_jawaban": "150 Juta Kilometer",
+            "duration": 15
         },
         {
             "id": 11,
-            "kategori": "Pengetahuan Umum",
-            "pertanyaan": "Warna apa yang dihasilkan dari campuran biru dan kuning?",
-            "kunci_jawaban": "Hijau"
+            "kategori": "Matematika",
+            "pertanyaan": "Jika $f(x) = 2x + 3$ dan $g(x) = x^2$, berapakah nilai dari $(g \\circ f)(1)$?",
+            "kunci_jawaban": "25",
+            "duration": 20
         },
         {
             "id": 12,
-            "kategori": "Numerik",
-            "pertanyaan": "Jika harga 3 buku adalah 15.000, berapa harga 1 buku?",
-            "kunci_jawaban": "5.000"
+            "kategori": "Fisika",
+            "pertanyaan": "Sebuah benda bermassa 2 kg jatuh bebas dari ketinggian 20 meter. Jika $g = 10 \\text{ m/s}^2$, berapakah energi kinetik benda saat menyentuh tanah?",
+            "kunci_jawaban": "400 Joule",
+            "duration": 25
         },
         {
             "id": 13,
-            "kategori": "Pengetahuan Umum",
-            "pertanyaan": "Kumpulan bintang di langit yang membentuk pola disebut?",
-            "kunci_jawaban": "Rasi Bintang (Konstelasi)"
+            "kategori": "Kimia",
+            "pertanyaan": "Berapakah jumlah proton, elektron, dan neutron pada ion $^{23}_{11}Na^+$?",
+            "kunci_jawaban": "Proton: 11, Elektron: 10, Neutron: 12",
+            "duration": 30
         },
         {
             "id": 14,
-            "kategori": "Numerik",
-            "pertanyaan": "Berapakah hasil dari 2 pangkat 5?",
-            "kunci_jawaban": "32"
+            "kategori": "Biologi",
+            "pertanyaan": "Organel sel yang berfungsi sebagai tempat respirasi sel dan penghasil energi (ATP) adalah?",
+            "kunci_jawaban": "Mitokondria",
+            "duration": 15
         },
         {
             "id": 15,
-            "kategori": "Pengetahuan Umum",
-            "pertanyaan": "Zat hijau pada daun tumbuhan disebut?",
-            "kunci_jawaban": "Klorofil"
+            "kategori": "IPS / Sejarah",
+            "pertanyaan": "Peristiwa pembacaan Teks Proklamasi Kemerdekaan Indonesia dilakukan di jalan?",
+            "kunci_jawaban": "Jl. Pegangsaan Timur No. 56",
+            "duration": 15
         },
         {
             "id": 16,
-            "kategori": "Numerik",
-            "pertanyaan": "Sebuah jam menunjukkan pukul 15.00. Itu sama dengan jam berapa sore?",
-            "kunci_jawaban": "Jam 3 sore"
+            "kategori": "Matematika",
+            "pertanyaan": "Tentukan himpunan penyelesaian dari persamaan $|2x - 5| = 3$.",
+            "kunci_jawaban": "{1, 4}",
+            "duration": 25
         },
         {
             "id": 17,
-            "kategori": "Pengetahuan Umum",
-            "pertanyaan": "Siapa penemu benua Amerika?",
-            "kunci_jawaban": "Christopher Columbus"
+            "kategori": "Fisika",
+            "pertanyaan": "Dua buah cermin datar disusun membentuk sudut $60^\\circ$. Berapakah jumlah bayangan yang terbentuk dari sebuah benda yang diletakkan di antaranya?",
+            "kunci_jawaban": "5",
+            "duration": 20
         },
         {
             "id": 18,
-            "kategori": "Numerik",
-            "pertanyaan": "Berapa menit dalam 2,5 jam?",
-            "kunci_jawaban": "150 menit"
+            "kategori": "Kimia",
+            "pertanyaan": "Berapakah nilai pH dari larutan $HCl$ $0,01 \\text{ M}$?",
+            "kunci_jawaban": "2",
+            "duration": 15
         },
         {
             "id": 19,
             "kategori": "Pengetahuan Umum",
-            "pertanyaan": "Negara terkecil di dunia adalah?",
-            "kunci_jawaban": "Vatikan"
+            "pertanyaan": "Siapa penulis novel legendaris 'Laskar Pelangi'?",
+            "kunci_jawaban": "Andrea Hirata",
+            "duration": 10
         },
         {
             "id": 20,
-            "kategori": "Numerik",
-            "pertanyaan": "Jika x + 12 = 30, berapa x?",
-            "kunci_jawaban": "18",
-            "duration": 5
-        },
-        {
-            "id": 21,
-            "kategori": "Biologi",
-            "pertanyaan": "Hewan apakah ini?",
-            "kunci_jawaban": "Singa (Lion)",
-            "img": "assets/textures/quiz/lion.jpg",
-            "duration": 15
+            "kategori": "Informatika",
+            "pertanyaan": "Dalam sistem bilangan biner, berapakah representasi desimal dari angka $10110_2$?",
+            "kunci_jawaban": "22",
+            "duration": 20
         }
     ]
 }
