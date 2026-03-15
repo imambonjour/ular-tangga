@@ -1,11 +1,13 @@
-# Use a lightweight Nginx image
+# Gunakan image Nginx yang ringan
 FROM nginx:alpine
 
-# Copy static files to Nginx directory
-VOLUME . /usr/share/nginx/html
+# Salin file dari folder saat ini ke direktori Nginx
+# Titik (.) pertama adalah folder di laptopmu
+# Jalur kedua adalah folder tujuan di dalam container
+COPY . /usr/share/nginx/html
 
-# Expose port 80
+# Port 80
 EXPOSE 80
 
-# Start Nginx
+# Jalankan Nginx
 CMD ["nginx", "-g", "daemon off;"]
