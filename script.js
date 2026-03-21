@@ -98,7 +98,9 @@ function startGame(numPlayers) {
             id: i + 1,
             position: 1,
             color: getColorForPlayer(i),
-            element: createPlayerElement(i)
+            element: createPlayerElement(i),
+            lifePoints: 6,
+            isDead: false
         };
         players.push(player);
         playersLayer.appendChild(player.element);
@@ -109,6 +111,7 @@ function startGame(numPlayers) {
     gameScreen.style.display = 'flex';
 
     updateTurnIndicator();
+    updateLeaderboard(); 
     addLog(`Game started with ${numPlayers} players!`);
 }
 
@@ -279,8 +282,18 @@ async function handleRoll() {
     await animateDice(roll);
 
     const player = players[currentPlayerIndex];
-    addLog(`${getPlayerName(player)} rolled a ${roll}!`);
+    
+    if (player.isDead) {
+        addLog(`${getPlayerName(player)} is OUT and skips their turn.`);
+        await sleep(500);
+        isMoving = false;
+        currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+        updateTurnIndicator();
+        rollBtn.disabled = false;
+        return;
+    }
 
+    addLog(`${getPlayerName(player)} rolled a ${roll}!`);
     await movePlayerSequence(player, roll);
 }
 
@@ -471,7 +484,17 @@ async function handleDecision(isCorrect) {
         addLog(`CORRECT! ${getPlayerName(player)} stays.`);
         await checkTeleportation(player, roll);
     } else {
-        addLog(`INCORRECT! The answer was: ${currentCorrectAnswer}. ${getPlayerName(player)} moves back 3 squares.`);
+        // Reduced life
+        player.lifePoints = Math.max(0, player.lifePoints - 1);
+        addLog(`INCORRECT! ${getPlayerName(player)} lost 1 point! Remaining health: ${player.lifePoints/2} hearts.`);
+        
+        if (player.lifePoints <= 0 && !player.isDead) {
+            player.isDead = true;
+            player.element.classList.add('player-dead');
+            addLog(`${getPlayerName(player)} has NO LIVES LEFT!`);
+        }
+        
+        updateLeaderboard();
 
         // Move back 3 squares (or minimum to Square 1)
         const targetPos = Math.max(1, player.position - 3);
@@ -544,10 +567,67 @@ function getColorForPlayer(index) {
 }
 
 function addLog(message) {
+    if (gameLog.querySelector('.leaderboard-item')) {
+        // Leaderboard is active, don't use simple entry adding
+        // If you want history, we should have a separate log area.
+        // But user asked to "change the log pane to be a leaderboard".
+        console.log(`Log: ${message}`);
+        return;
+    }
     const entry = document.createElement('div');
     entry.className = 'log-entry';
     entry.innerText = `> ${message}`;
     gameLog.prepend(entry);
+}
+
+function updateLeaderboard() {
+    gameLog.innerHTML = '<div style="font-size: 1.2rem; border-bottom: 2px solid #4a5568; padding-bottom: 5px; margin-bottom: 10px; color: #ffd700;">LEADERBOARD</div>';
+    
+    players.forEach(player => {
+        const item = document.createElement('div');
+        item.className = 'leaderboard-item';
+        if (player.isDead) item.style.opacity = '0.5';
+
+        const name = document.createElement('div');
+        name.className = 'leaderboard-name';
+        name.innerText = getPlayerName(player);
+        name.style.color = player.color;
+
+        const heartsDisplay = document.createElement('div');
+        heartsDisplay.className = 'hearts-display';
+
+        for (let h = 0; h < 3; h++) {
+            const heartValue = player.lifePoints - (h * 2);
+            heartsDisplay.appendChild(createHeartElement(heartValue));
+        }
+
+        item.appendChild(name);
+        item.appendChild(heartsDisplay);
+        gameLog.appendChild(item);
+    });
+}
+
+function createHeartElement(points) {
+    const container = document.createElement('div');
+    container.className = 'heart-container';
+
+    const bg = document.createElement('img');
+    bg.src = 'assets/textures/heart/container.png';
+    bg.className = 'heart-layer heart-bg';
+    container.appendChild(bg);
+
+    if (points > 0) {
+        const fg = document.createElement('img');
+        fg.className = 'heart-layer heart-fg';
+        if (points >= 2) {
+            fg.src = 'assets/textures/heart/full.png';
+        } else if (points === 1) {
+            fg.src = 'assets/textures/heart/half.png';
+        }
+        container.appendChild(fg);
+    }
+
+    return container;
 }
 
 function victory(player) {
