@@ -3,16 +3,16 @@ const GRID_SIZE = 10;
 const TOTAL_SQUARES = 100;
 
 const SNAKES = {
-    25: 4, 32: 28, 46: 15, 60: 43, 69: 33, 74: 66, 93: 75, 99: 95
+    25: 4, 32: 28, 46: 15, 60: 43, 69: 33, 74: 66, 93: 75, 99: 23
 };
 
 const LADDERS = {
-    12: 50, 19: 38, 59: 79, 73: 92, 77: 85
+    13: 50, 19: 38, 59: 79, 73: 92, 77: 85
 };
 
 const BUNDLE_COUNT = 15;
 let bundleSquares = [];
-let QUESTIONS = []; 
+let QUESTIONS = [];
 
 // Game State
 let players = [];
@@ -34,8 +34,11 @@ const quizModal = document.getElementById('quiz-modal');
 const quizQuestion = document.getElementById('quiz-question');
 const quizTimerBar = document.getElementById('quiz-timer-bar');
 const quizImage = document.getElementById('quiz-image');
+const quizAnswerInput = document.getElementById('quiz-answer-input');
+const quizSubmitBtn = document.getElementById('quiz-submit-btn');
 
 let quizTimerInterval = null;
+let currentCorrectAnswer = "";
 
 /**
  * Load questions from external JSON
@@ -63,9 +66,23 @@ loadQuestions();
 /**
  * Initialize the game with the selected number of players
  */
+function handleStartGame() {
+    const input = document.getElementById('player-count-input');
+    let num = parseInt(input.value) || 2;
+    if (num > 8) num = 8;
+    if (num < 1) num = 1;
+    startGame(num);
+}
+
+function validatePlayerCount(input) {
+    if (input.value > 8) {
+        input.value = 8;
+    }
+}
+
 function startGame(numPlayers) {
-    if (isMoving) return; 
-    
+    if (isMoving) return;
+
     // Reset state
     players = [];
     playersLayer.innerHTML = '';
@@ -143,25 +160,25 @@ function getCoordinates(square) {
  */
 function updatePlayerUI(player) {
     const { bottom, left } = getCoordinates(player.position);
-    
+
     // Count how many players are on this square
     const playersOnSquare = players.filter(p => p.position === player.position);
     const count = playersOnSquare.length;
     const playerIndex = playersOnSquare.findIndex(p => p.id === player.id);
-    
+
     let scale = 1.0;
     let offsetX = 0;
     let offsetY = 0;
-    
+
     if (count > 1) {
         // Shrink based on density
         scale = count === 2 ? 0.75 : (count === 3 ? 0.6 : 0.5);
-        
+
         // Arrange in a small grid or offset pattern within the cell
         // A single cell is 10x10 units in our coordinate system
         // Player token is roughly 9x9 units now (9%)
         // We want to spread them out slightly
-        
+
         const spacing = 2.5; // Offset in percentage points
         if (count === 2) {
             offsetX = playerIndex === 0 ? -spacing : spacing;
@@ -174,9 +191,20 @@ function updatePlayerUI(player) {
             // Square pattern
             offsetX = (playerIndex % 2 === 0) ? -spacing : spacing;
             offsetY = (playerIndex < 2) ? spacing : -spacing;
+        } else {
+            // Denser grid for 5-8 players
+            scale = 0.45;
+            const step = 3.0;
+            // 3 columns: -step, 0, step
+            // 3 rows: step, 0, -step
+            const col = playerIndex % 3;
+            const row = Math.floor(playerIndex / 3);
+            
+            offsetX = (col - 1) * step;
+            offsetY = (1 - row) * step;
         }
     }
-    
+
     player.element.style.bottom = `${bottom + 0.5 + offsetY}%`;
     player.element.style.left = `${left + 0.5 + offsetX}%`;
     player.element.style.transform = `scale(${scale})`;
@@ -190,13 +218,13 @@ function isForbiddenSquare(square) {
     // Also exclude Snake tails and Ladder tops
     const snakeTails = Object.values(SNAKES);
     const ladderTops = Object.values(LADDERS);
-    
-    return SNAKES[square] || 
-           LADDERS[square] || 
-           snakeTails.includes(square) || 
-           ladderTops.includes(square) || 
-           square === 1 || 
-           square === TOTAL_SQUARES;
+
+    return SNAKES[square] ||
+        LADDERS[square] ||
+        snakeTails.includes(square) ||
+        ladderTops.includes(square) ||
+        square === 1 ||
+        square === TOTAL_SQUARES;
 }
 
 function placeBundles() {
@@ -223,11 +251,11 @@ function placeBundles() {
 function createBundleElement(square) {
     const { bottom, left } = getCoordinates(square);
     const el = document.createElement('img');
-    
+
     // Randomly select a gift texture
     const giftTextures = ['gift_green.png', 'gift_red.png', 'gift_yellow.png'];
     const randomTexture = giftTextures[Math.floor(Math.random() * giftTextures.length)];
-    
+
     el.src = `assets/textures/quiz/giftbox/${randomTexture}`;
     el.className = 'bundle-marker';
     el.style.bottom = `${bottom + 2}%`;
@@ -282,7 +310,7 @@ async function movePlayerSequence(player, steps) {
     let goingForward = true;
     for (let i = 0; i < steps; i++) {
         const oldPos = player.position;
-        
+
         // If we reach 100 and still have steps, bounce back
         if (player.position === TOTAL_SQUARES) {
             goingForward = false;
@@ -301,14 +329,14 @@ async function movePlayerSequence(player, steps) {
 
     // Check for Bundle (Quiz)
     if (bundleSquares.includes(player.position)) {
-        await showQuiz();
+        await showQuiz(steps);
         return; // handleDecision will resume the game
     }
 
-    await checkTeleportation(player);
+    await checkTeleportation(player, steps);
 }
 
-async function checkTeleportation(player) {
+async function checkTeleportation(player, roll) {
     // Check for Snake or Ladder
     if (SNAKES[player.position]) {
         const oldPos = player.position;
@@ -327,7 +355,7 @@ async function checkTeleportation(player) {
     }
 
     checkWinCondition(player);
-    endTurn();
+    endTurn(roll);
 }
 
 function checkWinCondition(player) {
@@ -338,9 +366,15 @@ function checkWinCondition(player) {
     return false;
 }
 
-function endTurn() {
+function endTurn(roll) {
     if (!gameActive) return;
-    currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+
+    if (roll === 6) {
+        addLog(`${getPlayerName(players[currentPlayerIndex])} rolled a 6 and gets another turn!`);
+    } else {
+        currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+    }
+
     updateTurnIndicator();
     isMoving = false;
     rollBtn.disabled = false;
@@ -349,12 +383,15 @@ function endTurn() {
 /**
  * Quiz & Teacher controls
  */
-async function showQuiz() {
+async function showQuiz(roll) {
     if (QUESTIONS.length === 0) {
         addLog("Error: No questions available!");
-        endTurn();
+        endTurn(roll);
         return;
     }
+
+    // Store the roll for handleDecision
+    quizModal.dataset.roll = roll;
 
     const randomIndex = Math.floor(Math.random() * QUESTIONS.length);
     const q = QUESTIONS[randomIndex];
@@ -369,18 +406,26 @@ async function showQuiz() {
         quizImage.style.display = 'none';
     }
 
+    // Clear and focus input
+    quizAnswerInput.value = "";
+    currentCorrectAnswer = q.kunci_jawaban;
+
     // Show modal
     quizModal.style.display = 'flex';
-    addLog("Quiz Time! Teacher is deciding...");
+
+    // Auto-focus input after a short delay to ensure modal is visible
+    setTimeout(() => quizAnswerInput.focus(), 100);
+
+    addLog("Quiz Time! Type your answer...");
 
     // Render LaTeX Math if KaTeX is loaded
     if (typeof renderMathInElement === 'function') {
         renderMathInElement(quizModal, {
             delimiters: [
-                {left: '$$', right: '$$', display: true},
-                {left: '$', right: '$', display: false}
+                { left: '$$', right: '$$', display: true },
+                { left: '$', right: '$', display: false }
             ],
-            throwOnError : false
+            throwOnError: false
         });
     }
 
@@ -420,12 +465,13 @@ async function handleDecision(isCorrect) {
 
     quizModal.style.display = 'none';
     const player = players[currentPlayerIndex];
+    const roll = parseInt(quizModal.dataset.roll);
 
     if (isCorrect) {
-        addLog(`Teacher ACCEPTED! ${getPlayerName(player)} stays.`);
-        await checkTeleportation(player);
+        addLog(`CORRECT! ${getPlayerName(player)} stays.`);
+        await checkTeleportation(player, roll);
     } else {
-        addLog(`Teacher REJECTED! ${getPlayerName(player)} moves back 3 squares.`);
+        addLog(`INCORRECT! The answer was: ${currentCorrectAnswer}. ${getPlayerName(player)} moves back 3 squares.`);
 
         // Move back 3 squares (or minimum to Square 1)
         const targetPos = Math.max(1, player.position - 3);
@@ -438,9 +484,29 @@ async function handleDecision(isCorrect) {
             await sleep(300);
         }
 
-        await checkTeleportation(player);
+        await checkTeleportation(player, roll);
     }
 }
+
+/**
+ * Handle manual answer submission
+ */
+function checkQuizAnswer() {
+    const userAnswer = quizAnswerInput.value.trim();
+
+    // Simple case-insensitive comparison as requested
+    const isCorrect = userAnswer.toLowerCase() === currentCorrectAnswer.toLowerCase();
+
+    handleDecision(isCorrect);
+}
+
+// Event Listeners for Quiz
+quizSubmitBtn.addEventListener('click', checkQuizAnswer);
+quizAnswerInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        checkQuizAnswer();
+    }
+});
 
 function removeBundle(square) {
     bundleSquares = bundleSquares.filter(s => s !== square);
@@ -464,8 +530,17 @@ function getPlayerName(player) {
 }
 
 function getColorForPlayer(index) {
-    const colors = ['#ff4d4d', '#ffa500', '#ffff4d', '#4dff4d']; // Red, Orange, Yellow, Green
-    return colors[index];
+    const colors = [
+        '#ff4d4d', // Red
+        '#ffa500', // Orange
+        '#ffff4d', // Yellow
+        '#4dff4d', // Green
+        '#4d4dff', // Blue
+        '#a54dff', // Purple
+        '#4dffff', // Cyan
+        '#ff4dff'  // Pink
+    ];
+    return colors[index % colors.length];
 }
 
 function addLog(message) {
