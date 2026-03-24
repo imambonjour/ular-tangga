@@ -3,7 +3,7 @@ const GRID_SIZE = 10;
 const TOTAL_SQUARES = 100;
 
 const SNAKES = {
-    25: 4, 32: 28, 46: 15, 60: 43, 69: 33, 74: 66, 93: 75, 99: 23
+    25: 4, 32: 28, 46: 15, 60: 43, 69: 33, 74: 45, 93: 75, 99: 23
 };
 
 const LADDERS = {
@@ -36,6 +36,7 @@ const quizTimerBar = document.getElementById('quiz-timer-bar');
 const quizImage = document.getElementById('quiz-image');
 const quizAnswerInput = document.getElementById('quiz-answer-input');
 const quizSubmitBtn = document.getElementById('quiz-submit-btn');
+const quizOptionsContainer = document.getElementById('quiz-options-container');
 
 let quizTimerInterval = null;
 let currentCorrectAnswer = "";
@@ -273,29 +274,35 @@ function createBundleElement(square) {
 async function handleRoll() {
     if (!gameActive || isMoving) return;
 
+    const player = players[currentPlayerIndex];
+    
+    // Check if player is dead first to skip roll and skip sound
+    if (player.isDead) {
+        isMoving = true;
+        rollBtn.disabled = true;
+        addLog(`${getPlayerName(player)} is OUT and skips their turn.`);
+        await sleep(500);
+        currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+        updateTurnIndicator();
+        isMoving = false;
+        rollBtn.disabled = false;
+        return;
+    }
+
     isMoving = true;
     rollBtn.disabled = true;
+
+    playSound('dice');
 
     const roll = Math.floor(Math.random() * 6) + 1;
 
     // Animate dice (simplified)
     await animateDice(roll);
 
-    const player = players[currentPlayerIndex];
-    
-    if (player.isDead) {
-        addLog(`${getPlayerName(player)} is OUT and skips their turn.`);
-        await sleep(500);
-        isMoving = false;
-        currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
-        updateTurnIndicator();
-        rollBtn.disabled = false;
-        return;
-    }
-
     addLog(`${getPlayerName(player)} rolled a ${roll}!`);
     await movePlayerSequence(player, roll);
 }
+
 
 /**
  * Dice spritesheet animation/update
@@ -335,10 +342,11 @@ async function movePlayerSequence(player, steps) {
             player.position--;
         }
 
+        playSound('step');
         updatePlayersOnSquare(oldPos);
         updatePlayersOnSquare(player.position);
         await sleep(300);
-    }
+}
 
     // Check for Bundle (Quiz)
     if (bundleSquares.includes(player.position)) {
@@ -419,17 +427,36 @@ async function showQuiz(roll) {
         quizImage.style.display = 'none';
     }
 
-    // Clear and focus input
+    // Clear previous state
     quizAnswerInput.value = "";
+    quizOptionsContainer.innerHTML = "";
     currentCorrectAnswer = q.kunci_jawaban;
+
+    // Handle Question Type UI
+    if (q.type === 'multiple_choice' && q.options) {
+        quizAnswerInput.style.display = 'none';
+        quizSubmitBtn.style.display = 'none';
+        quizOptionsContainer.style.display = 'grid';
+
+        q.options.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = opt;
+            btn.onclick = () => handleDecision(opt.toLowerCase() === currentCorrectAnswer.toLowerCase());
+            quizOptionsContainer.appendChild(btn);
+        });
+    } else {
+        quizAnswerInput.style.display = 'block';
+        quizSubmitBtn.style.display = 'block';
+        quizOptionsContainer.style.display = 'none';
+        // Auto-focus input after a short delay
+        setTimeout(() => quizAnswerInput.focus(), 100);
+    }
 
     // Show modal
     quizModal.style.display = 'flex';
 
-    // Auto-focus input after a short delay to ensure modal is visible
-    setTimeout(() => quizAnswerInput.focus(), 100);
-
-    addLog("Quiz Time! Type your answer...");
+    addLog(`Quiz Time (${q.type === 'multiple_choice' ? 'Multiple Choice' : 'Simple Answer'})!`);
 
     // Render LaTeX Math if KaTeX is loaded
     if (typeof renderMathInElement === 'function') {
@@ -481,17 +508,20 @@ async function handleDecision(isCorrect) {
     const roll = parseInt(quizModal.dataset.roll);
 
     if (isCorrect) {
+        playSound('correct');
         addLog(`CORRECT! ${getPlayerName(player)} stays.`);
         await checkTeleportation(player, roll);
     } else {
         // Reduced life
         player.lifePoints = Math.max(0, player.lifePoints - 1);
-        addLog(`INCORRECT! ${getPlayerName(player)} lost 1 point! Remaining health: ${player.lifePoints/2} hearts.`);
         
         if (player.lifePoints <= 0 && !player.isDead) {
+            playSound('lost');
             player.isDead = true;
             player.element.classList.add('player-dead');
             addLog(`${getPlayerName(player)} has NO LIVES LEFT!`);
+        } else {
+            playSound('wrong');
         }
         
         updateLeaderboard();
@@ -502,6 +532,7 @@ async function handleDecision(isCorrect) {
 
         for (let i = 0; i < stepsToBack; i++) {
             player.position--;
+            playSound('step');
             updatePlayersOnSquare(player.position + 1); // Refresh old
             updatePlayersOnSquare(player.position);     // Refresh new
             await sleep(300);
@@ -630,7 +661,13 @@ function createHeartElement(points) {
     return container;
 }
 
+function playSound(name) {
+    const audio = new Audio(`assets/sounds/${name}.mp3`);
+    audio.play().catch(e => console.warn("Sound play blocked:", e));
+}
+
 function victory(player) {
+    playSound('finish');
     addLog(`CONGRATULATIONS! ${getPlayerName(player)} WON!`);
     turnIndicator.innerText = `${getPlayerName(player)} WINS!`;
     turnIndicator.style.color = '#ffd700';

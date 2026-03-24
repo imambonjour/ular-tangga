@@ -2,143 +2,325 @@
     "questions": [
         {
             "id": 1,
-            "kategori": "Matematika (OSN)",
-            "pertanyaan": "Berapakah banyak bilangan bulat positif $n$ sehingga $n^2 - n + 1$ merupakan bilangan kubik sempurna?",
-            "kunci_jawaban": "1",
-            "duration": 60
+            "type": "multiple_choice",
+            "kategori": "Logika",
+            "pertanyaan": "Jika hari ini adalah hari Rabu, hari apakah 100 hari dari sekarang?",
+            "options": [
+                "Kamis",
+                "Jumat",
+                "Sabtu",
+                "Minggu"
+            ],
+            "kunci_jawaban": "Kamis",
+            "duration": 20
         },
         {
             "id": 2,
-            "kategori": "Fisika",
-            "pertanyaan": "Sebuah silinder pejal bermassa $M$ dan jari-jari $R$ menggelinding tanpa slip pada bidang miring dengan sudut elevasi $\\theta$. Berapakah percepatan linear pusat massa silinder tersebut?",
-            "kunci_jawaban": "2/3 g sin θ",
-            "duration": 45
-        },
-        {
-            "id": 3,
-            "kategori": "Kimia",
-            "pertanyaan": "Pada suhu tertentu, tetapan kesetimbangan $K_p$ untuk reaksi $PCl_5(g) \\rightleftharpoons PCl_3(g) + Cl_2(g)$ adalah 4. Jika tekanan total sistem adalah 2 atm, berapakah derajat disosiasi ($\\alpha$) dari $PCl_5$?",
-            "kunci_jawaban": "sqrt(2/3) atau sekitar 0.816",
-            "duration": 60
-        },
-        {
-            "id": 4,
-            "kategori": "Biologi (OSN)",
-            "pertanyaan": "Dalam siklus Krebs, berapakah jumlah molekul ATP (melalui fosforilasi tingkat substrat), NADH, dan $FADH_2$ yang dihasilkan dari oksidasi sempurna satu molekul glukosa?",
-            "kunci_jawaban": "2 ATP, 6 NADH, dan 2 FADH2",
+            "type": "multiple_choice",
+            "kategori": "Numerasi",
+            "pertanyaan": "Sebuah toko memberikan diskon ganda '50% + 20%'. Berapakah total persentase diskon sebenarnya yang diterima pembeli?",
+            "options": [
+                "70%",
+                "65%",
+                "60%",
+                "55%"
+            ],
+            "kunci_jawaban": "60%",
             "duration": 30
         },
         {
+            "id": 3,
+            "type": "multiple_choice",
+            "kategori": "Pengetahuan Umum",
+            "pertanyaan": "Apa nama fenomena astronomi ketika posisi Bulan berada di antara Bumi dan Matahari, namun Bulan tidak menutupi seluruh piringan Matahari sehingga tampak seperti cincin?",
+            "options": [
+                "Gerhana Matahari Total",
+                "Gerhana Matahari Cincin",
+                "Gerhana Matahari Sebagian",
+                "Gerhana Bulan Total"
+            ],
+            "kunci_jawaban": "Gerhana Matahari Cincin",
+            "duration": 15
+        },
+        {
+            "id": 4,
+            "type": "multiple_choice",
+            "kategori": "Matematika",
+            "pertanyaan": "Jika x + y = 10 dan xy = 21, berapakah nilai dari x² + y²?",
+            "options": [
+                "58",
+                "62",
+                "79",
+                "100"
+            ],
+            "kunci_jawaban": "58",
+            "duration": 40
+        },
+        {
             "id": 5,
-            "kategori": "IPS / Ekonomi",
-            "pertanyaan": "Dalam struktur pasar persaingan sempurna, sebuah perusahaan akan mencapai titik impas (break-even point) dalam jangka panjang ketika harga pasar sama dengan?",
-            "kunci_jawaban": "Biaya Rata-rata Minimum (Minimum Average Cost)",
-            "duration": 25
+            "type": "multiple_choice",
+            "kategori": "Logika",
+            "pertanyaan": "Dalam sebuah balap lari, jika kamu menyalip orang di posisi kedua, sekarang kamu berada di posisi keberapa?",
+            "options": [
+                "Pertama",
+                "Kedua",
+                "Ketiga",
+                "Keempat"
+            ],
+            "kunci_jawaban": "Kedua",
+            "duration": 10
         },
         {
             "id": 6,
+            "type": "multiple_choice",
             "kategori": "Pengetahuan Umum",
-            "pertanyaan": "Siapakah tokoh yang mengemukakan konsep 'The End of History' yang menyatakan bahwa demokrasi liberal adalah titik akhir evolusi ideologis manusia?",
-            "kunci_jawaban": "Francis Fukuyama",
+            "pertanyaan": "Siapakah penjelajah asal Italia yang namanya diabadikan sebagai nama benua Amerika?",
+            "options": [
+                "Christopher Columbus",
+                "Vasco da Gama",
+                "Amerigo Vespucci",
+                "Marco Polo"
+            ],
+            "kunci_jawaban": "Amerigo Vespucci",
             "duration": 15
         },
         {
             "id": 7,
-            "kategori": "Informatika / Logika",
-            "pertanyaan": "Dalam algoritma pemrograman, berapakah kompleksitas waktu rata-rata (average case complexity) dari algoritma Quick Sort?",
-            "kunci_jawaban": "O(n log n)",
+            "type": "multiple_choice",
+            "kategori": "Fisika Dasar",
+            "pertanyaan": "Mengapa kabel listrik di pinggir jalan dipasang agak kendur dan tidak tegang sempurna?",
+            "options": [
+                "Agar arus listrik mengalir lebih cepat",
+                "Untuk menghemat biaya kabel",
+                "Agar tidak putus saat menyusut di suhu dingin",
+                "Agar tidak mudah terbakar saat panas"
+            ],
+            "kunci_jawaban": "Agar tidak putus saat menyusut di suhu dingin",
             "duration": 20
         },
         {
             "id": 8,
-            "kategori": "Fisika Modern",
-            "pertanyaan": "Berapakah panjang gelombang de Broglie dari sebuah elektron (massa $m$) yang dipercepat dari keadaan diam melalui beda potensial $V$?",
-            "kunci_jawaban": "h / sqrt(2meV)",
-            "duration": 40
-        },
-        {
-            "id": 9,
-            "kategori": "Kimia Organik",
-            "pertanyaan": "Apa nama produk utama yang dihasilkan dari reaksi antara benzena dengan klorometana menggunakan katalis $AlCl_3$ (Reaksi Friedel-Crafts)?",
-            "kunci_jawaban": "Toluena (Metilbenzena)",
+            "type": "multiple_choice",
+            "kategori": "Numerasi",
+            "pertanyaan": "Sebuah tabung memiliki jari-jari r dan tinggi t. Jika jari-jarinya dijadikan dua kali lipat dan tingginya tetap, berapa kali lipat volume tabung tersebut sekarang?",
+            "options": [
+                "2 kali lipat",
+                "4 kali lipat",
+                "6 kali lipat",
+                "8 kali lipat"
+            ],
+            "kunci_jawaban": "4 kali lipat",
             "duration": 30
         },
         {
+            "id": 9,
+            "type": "multiple_choice",
+            "kategori": "Bahasa / Logika",
+            "pertanyaan": "Semua siswa kelas 11 memakai sepatu hitam. Budi adalah siswa kelas 11. Apa kesimpulan logisnya?",
+            "options": [
+                "Budi mungkin memakai sepatu hitam",
+                "Budi memakai sepatu hitam",
+                "Semua siswa memakai sepatu Budi",
+                "Siswa kelas 11 tidak hanya Budi"
+            ],
+            "kunci_jawaban": "Budi memakai sepatu hitam",
+            "duration": 10
+        },
+        {
             "id": 10,
-            "kategori": "Astronomi / Geografi",
-            "pertanyaan": "Berapakah jarak rata-rata antara Bumi dan Matahari yang sering disebut sebagai satu Satuan Astronomi (AU) dalam satuan kilometer?",
-            "kunci_jawaban": "150 Juta Kilometer",
+            "type": "multiple_choice",
+            "kategori": "Pengetahuan Umum",
+            "pertanyaan": "Apa nama perjanjian yang menandai pengakuan kedaulatan Indonesia oleh Belanda pada tahun 1949?",
+            "options": [
+                "Perjanjian Linggarjati",
+                "Perjanjian Renville",
+                "Perjanjian Roem-Royen",
+                "Konferensi Meja Bundar (KMB)"
+            ],
+            "kunci_jawaban": "Konferensi Meja Bundar (KMB)",
             "duration": 15
         },
         {
             "id": 11,
-            "kategori": "Matematika",
-            "pertanyaan": "Jika $f(x) = 2x + 3$ dan $g(x) = x^2$, berapakah nilai dari $(g \\circ f)(1)$?",
-            "kunci_jawaban": "25",
-            "duration": 20
-        },
-        {
-            "id": 12,
-            "kategori": "Fisika",
-            "pertanyaan": "Sebuah benda bermassa 2 kg jatuh bebas dari ketinggian 20 meter. Jika $g = 10 \\text{ m/s}^2$, berapakah energi kinetik benda saat menyentuh tanah?",
-            "kunci_jawaban": "400 Joule",
-            "duration": 25
-        },
-        {
-            "id": 13,
-            "kategori": "Kimia",
-            "pertanyaan": "Berapakah jumlah proton, elektron, dan neutron pada ion $^{23}_{11}Na^+$?",
-            "kunci_jawaban": "Proton: 11, Elektron: 10, Neutron: 12",
-            "duration": 30
-        },
-        {
-            "id": 14,
-            "kategori": "Biologi",
-            "pertanyaan": "Organel sel yang berfungsi sebagai tempat respirasi sel dan penghasil energi (ATP) adalah?",
-            "kunci_jawaban": "Mitokondria",
+            "type": "multiple_choice",
+            "kategori": "Kimia Sehari-hari",
+            "pertanyaan": "Gas apa yang paling banyak terkandung dalam atmosfer Bumi kita?",
+            "options": [
+                "Oksigen",
+                "Nitrogen",
+                "Karbon Dioksida",
+                "Hidrogen"
+            ],
+            "kunci_jawaban": "Nitrogen",
             "duration": 15
         },
         {
+            "id": 12,
+            "type": "multiple_choice",
+            "kategori": "Numerasi (Peluang)",
+            "pertanyaan": "Dalam pelemparan dua buah dadu secara bersamaan, berapakah peluang munculnya mata dadu yang berjumlah 7?",
+            "options": [
+                "1/6",
+                "1/12",
+                "1/36",
+                "1/2"
+            ],
+            "kunci_jawaban": "1/6",
+            "duration": 35
+        },
+        {
+            "id": 13,
+            "type": "multiple_choice",
+            "kategori": "TIK / Informatika",
+            "pertanyaan": "Apa kepanjangan dari URL yang sering kita temukan di alamat website?",
+            "options": [
+                "Universal Resource Locator",
+                "Uniform Resource Locator",
+                "United Resource Link",
+                "Unit Resource Locator"
+            ],
+            "kunci_jawaban": "Uniform Resource Locator",
+            "duration": 20
+        },
+        {
+            "id": 14,
+            "type": "multiple_choice",
+            "kategori": "Logika Visual",
+            "pertanyaan": "Sebuah kubus memiliki 6 sisi. Jika setiap sudut kubus dipotong (dipapas), ada berapa jumlah sisi kubus tersebut sekarang?",
+            "options": [
+                "8",
+                "12",
+                "14",
+                "16"
+            ],
+            "kunci_jawaban": "14",
+            "duration": 40
+        },
+        {
             "id": 15,
-            "kategori": "IPS / Sejarah",
-            "pertanyaan": "Peristiwa pembacaan Teks Proklamasi Kemerdekaan Indonesia dilakukan di jalan?",
-            "kunci_jawaban": "Jl. Pegangsaan Timur No. 56",
+            "type": "multiple_choice",
+            "kategori": "Pengetahuan Umum",
+            "pertanyaan": "Negara manakah yang menjadi tuan rumah sekaligus pemenang Piala Dunia FIFA pertama pada tahun 1930?",
+            "options": [
+                "Brasil",
+                "Argentina",
+                "Uruguay",
+                "Italia"
+            ],
+            "kunci_jawaban": "Uruguay",
             "duration": 15
         },
         {
             "id": 16,
-            "kategori": "Matematika",
-            "pertanyaan": "Tentukan himpunan penyelesaian dari persamaan $|2x - 5| = 3$.",
-            "kunci_jawaban": "{1, 4}",
-            "duration": 25
+            "type": "multiple_choice",
+            "kategori": "Ekonomi Dasar",
+            "pertanyaan": "Apa istilah untuk kenaikan harga barang dan jasa secara umum dan terus menerus dalam jangka waktu tertentu?",
+            "options": [
+                "Deflasi",
+                "Inflasi",
+                "Resesi",
+                "Stagnasi"
+            ],
+            "kunci_jawaban": "Inflasi",
+            "duration": 15
         },
         {
             "id": 17,
-            "kategori": "Fisika",
-            "pertanyaan": "Dua buah cermin datar disusun membentuk sudut $60^\\circ$. Berapakah jumlah bayangan yang terbentuk dari sebuah benda yang diletakkan di antaranya?",
-            "kunci_jawaban": "5",
+            "type": "multiple_choice",
+            "kategori": "Numerasi",
+            "pertanyaan": "Berapakah hasil dari 2 pangkat 10?",
+            "options": [
+                "512",
+                "1000",
+                "1024",
+                "2048"
+            ],
+            "kunci_jawaban": "1024",
             "duration": 20
         },
         {
             "id": 18,
-            "kategori": "Kimia",
-            "pertanyaan": "Berapakah nilai pH dari larutan $HCl$ $0,01 \\text{ M}$?",
-            "kunci_jawaban": "2",
+            "type": "multiple_choice",
+            "kategori": "Biologi Dasar",
+            "pertanyaan": "Apa jenis pembelahan sel yang menghasilkan dua sel anak yang identik secara genetik dengan sel induknya?",
+            "options": [
+                "Meiosis",
+                "Mitosis",
+                "Amitosis",
+                "Fertilisasi"
+            ],
+            "kunci_jawaban": "Mitosis",
             "duration": 15
         },
         {
             "id": 19,
-            "kategori": "Pengetahuan Umum",
-            "pertanyaan": "Siapa penulis novel legendaris 'Laskar Pelangi'?",
-            "kunci_jawaban": "Andrea Hirata",
-            "duration": 10
+            "type": "multiple_choice",
+            "kategori": "Logika Matematika",
+            "pertanyaan": "Jika 3 kucing bisa menangkap 3 tikus dalam 3 menit, berapa menit yang dibutuhkan 100 kucing untuk menangkap 100 tikus?",
+            "options": [
+                "1 menit",
+                "3 menit",
+                "33 menit",
+                "100 menit"
+            ],
+            "kunci_jawaban": "3 menit",
+            "duration": 30
         },
         {
             "id": 20,
-            "kategori": "Informatika",
-            "pertanyaan": "Dalam sistem bilangan biner, berapakah representasi desimal dari angka $10110_2$?",
-            "kunci_jawaban": "22",
-            "duration": 20
+            "type": "multiple_choice",
+            "kategori": "Pengetahuan Umum",
+            "pertanyaan": "Siapakah ilmuwan yang mengemukakan Hukum Gravitasi Universal setelah melihat apel jatuh?",
+            "options": [
+                "Albert Einstein",
+                "Galileo Galilei",
+                "Isaac Newton",
+                "Charles Darwin"
+            ],
+            "kunci_jawaban": "Isaac Newton",
+            "duration": 10
+        },
+        {
+            "id": 21,
+            "type": "multiple_choice",
+            "kategori": "Pengetahuan Umum",
+            "pertanyaan": "Apa ibu kota negara Indonesia saat ini?",
+            "options": [
+                "Jakarta",
+                "Bandung",
+                "Surabaya",
+                "Nusantara"
+            ],
+            "kunci_jawaban": "Jakarta",
+            "duration": 10
+        },
+        {
+            "id": 22,
+            "type": "multiple_choice",
+            "kategori": "Sains",
+            "pertanyaan": "Planet manakah yang dijuluki sebagai 'Planet Merah'?",
+            "options": [
+                "Venus",
+                "Mars",
+                "Jupiter",
+                "Saturnus"
+            ],
+            "kunci_jawaban": "Mars",
+            "duration": 10
+        },
+        {
+            "id": 23,
+            "type": "multiple_choice",
+            "kategori": "Matematika",
+            "pertanyaan": "Berapakah hasil dari 15 x 6?",
+            "options": [
+                "80",
+                "85",
+                "90",
+                "95"
+            ],
+            "kunci_jawaban": "90",
+            "duration": 15
         }
     ]
 }
